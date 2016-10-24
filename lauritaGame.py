@@ -4,6 +4,22 @@ from pygame.locals import *
  
 alto = 640
 ancho = 480
+class Caramelo(pygame.sprite.Sprite):
+    def __init__(self,x ,y):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = cargarImagen("imagenes/caramelo.png", True)
+        self.rect = self.image.get_rect()
+        self.rect.centerx = ancho / x
+        self.rect.centery = alto / y
+        self.speed = [0, -0.3]
+ 
+
+    def actualizar(self, time):
+        self.rect.centery += self.speed[0] * time
+        self.rect.centery += self.speed[1] * time
+        if self.rect.top <= 0 or self.rect.bottom >= ancho:
+            self.speed[1] = -self.speed[1]
+            self.rect.centery += self.speed[1] * time
 
 class Galleta(pygame.sprite.Sprite):
     def __init__(self):#inicializa la clase
@@ -32,6 +48,7 @@ def main():
     background_image = cargarImagen('imagenes/fondo3.png')
     pygame.display.set_caption("Laurita Game")
     galleta = Galleta()
+    caramelo = Caramelo(1.05,1.99)
  
     clock = pygame.time.Clock()
  
@@ -41,10 +58,12 @@ def main():
         for eventos in pygame.event.get():
             if eventos.type == QUIT:
                 sys.exit(0)
- 
+        
         galleta.mover(time, keys)
+        caramelo.actualizar(time)
         screen.blit(background_image, (0, 0))
         screen.blit(galleta.image, galleta.rect)
+        screen.blit(caramelo.image, caramelo.rect)
         pygame.display.flip()
     return 0
  
