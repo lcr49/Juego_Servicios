@@ -27,7 +27,9 @@ def gameOver(self):
         for eventos in pygame.event.get():
             if eventos.type == QUIT:
                 sys.exit(0)
-        
+            elif keys[K_e]:
+                pygame.init()
+                main()
         screen.blit(background_image, (0, 0))
 
         pygame.display.flip()
@@ -46,6 +48,9 @@ def ganar(self):
         for eventos in pygame.event.get():
             if eventos.type == QUIT:
                 sys.exit(0)
+            elif keys[K_e]:
+                pygame.init()
+                main()
         
         screen.blit(background_image, (0, 0))
 
@@ -99,21 +104,24 @@ class Galleta(pygame.sprite.Sprite):
 def cargarImagen(filename, transparent=False):  
     image = pygame.image.load(filename)       
     return image.convert_alpha()
+
  
 def main():
     screen = pygame.display.set_mode((alto, ancho)) 
     background_image = cargarImagen('imagenes/fondo3.png')
     pygame.display.set_caption("Laurita Game")
+
     galleta = Galleta()
     trofeo = Trofeo()
     caramelo = Caramelo(1.05,1.99)
-    caramelo1 = Caramelo(1.20,2.99)
-    caramelo3 = Caramelo(1.50,9.99)
-    caramelo5 = Caramelo(2.99,1.99)
-    caramelo6 = Caramelo(5.95,1.40)
- 
+    caramelo1 = Caramelo(2.20,10.99)
+    caramelo3 = Caramelo(3.50,2.80)
+    caramelo5 = Caramelo(0.85,8.50)
+    caramelo6 = Caramelo(1.20,20.99)
+    
     clock = pygame.time.Clock()
- 
+    icono_ventana = pygame.image.load("imagenes/icono.png")
+    pygame.display.set_icon(icono_ventana)
     while True:
         time = clock.tick(60)
         keys = pygame.key.get_pressed()
@@ -130,6 +138,7 @@ def main():
         caramelo6.actualizar(time, galleta)
          
         screen.blit(background_image, (0, 0))
+
         screen.blit(galleta.image, galleta.rect)
         screen.blit(trofeo.image, trofeo.rect)
         screen.blit(caramelo.image, caramelo.rect)
